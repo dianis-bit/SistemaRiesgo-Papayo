@@ -1,0 +1,898 @@
+/* =====================================================
+
+   CONFIGURACIÓN GENERAL
+
+\===================================================== */
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+body {
+
+    margin: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f4f6f8;
+
+    color: #222;
+
+}
+
+/* =====================================================
+
+   ENCABEZADO
+
+\===================================================== */
+
+.encabezado {
+
+    background: #fff8e7;
+
+    padding: 15px 25px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 2px solid #e5c76b;
+
+}
+
+.titulo-principal h1 {
+
+    margin: 0;
+
+    font-size: 25px;
+
+    color: #8a5a00;
+
+}
+
+.titulo-principal p {
+
+    margin: 4px 0 0;
+
+    color: #666;
+
+}
+
+.fecha-header {
+
+    font-weight: bold;
+
+    color: #555;
+
+}
+
+/* =====================================================
+
+   MENÚ
+
+\===================================================== */
+
+.menu {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 10px;
+
+    background: white;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+.menu-btn {
+
+    border: none;
+
+    background: #f1f1f1;
+
+    padding: 10px 25px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+}
+
+.menu-btn:hover {
+
+    background: #e5e5e5;
+
+}
+
+.menu-btn.activo {
+
+    background: #ffe066;
+
+    color: #5c4200;
+
+    font-weight: bold;
+
+}
+
+/* =====================================================
+
+   FORMULARIO
+
+\===================================================== */
+
+.formulario-horizontal {
+
+    background: white;
+
+    margin: 10px 15px;
+
+    padding: 14px 18px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+}
+
+.seccion {
+
+    display: none;
+
+}
+
+.seccion.activa {
+
+    display: block;
+
+}
+
+.formulario-titulo {
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+
+    color: #765000;
+
+}
+
+/* =====================================================
+
+   FORMULARIO EN UNA SOLA FILA
+
+\===================================================== */
+
+.formulario-grid {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+}
+
+.campo-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    min-width: 145px;
+
+}
+
+.campo-form label {
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: #555;
+
+}
+
+.campo-form select,
+
+.campo-form input {
+
+    height: 37px;
+
+    padding: 6px 9px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    background: white;
+
+    font-size: 14px;
+
+}
+
+.campo-form select:focus,
+
+.campo-form input:focus {
+
+    outline: none;
+
+    border-color: #d39a00;
+
+}
+
+/* =====================================================
+
+   BOTÓN
+
+\===================================================== */
+
+.boton-form {
+
+    min-width: 170px;
+
+}
+
+.btn-registrar {
+
+    height: 37px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 0 17px;
+
+    background: #c98500;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+.btn-registrar:hover {
+
+    background: #a86e00;
+
+}
+
+.btn-eliminar {
+
+    height: 37px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 0 17px;
+
+    background: #b91c1c;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+.btn-eliminar:hover {
+
+    background: #991b1b;
+
+}
+
+/* =====================================================
+
+   RADIO
+
+\===================================================== */
+
+.radio-grupo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    height: 37px;
+
+    white-space: nowrap;
+
+}
+
+.radio-grupo label {
+
+    font-weight: normal;
+
+    font-size: 13px;
+
+    color: #333;
+
+}
+
+/* =====================================================
+
+   CUARTELES DEL TURNO
+
+\===================================================== */
+
+.lista-cuarteles {
+
+    min-height: 37px;
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 4px;
+
+    font-size: 12px;
+
+    color: #777;
+
+}
+
+.cuartel-chip {
+
+    background: #fff3cd;
+
+    border: 1px solid #e6c76a;
+
+    padding: 5px 8px;
+
+    border-radius: 5px;
+
+    font-weight: bold;
+
+    color: #765000;
+
+}
+
+/* =====================================================
+
+   MENSAJES
+
+\===================================================== */
+
+.mensaje {
+
+    margin-top: 8px;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+}
+
+/* =====================================================
+
+   MAPA
+
+\===================================================== */
+
+.contenedor-mapa {
+
+    margin: 10px 15px 20px;
+
+    background: white;
+
+    border-radius: 10px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+    overflow: hidden;
+
+}
+
+.cabecera-mapa {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 9px 16px;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+.btn-descargar {
+
+    height: 36px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 0 16px;
+
+    background: #15803d;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+}
+
+.btn-descargar:hover {
+
+    background: #166534;
+
+}
+
+.btn-descargar:disabled {
+
+    background: #9ca3af;
+
+    cursor: wait;
+
+}
+
+.cabecera-mapa h2 {
+
+    margin: 0;
+
+    font-size: 18px;
+
+    color: #555;
+
+}
+
+#estadoSeleccionado {
+
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 13px;
+
+    color: #777;
+
+}
+
+/* =====================================================
+
+   LEYENDA
+
+\===================================================== */
+
+.leyenda {
+
+    display: flex;
+
+    gap: 16px;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    font-size: 14px;
+
+}
+
+.leyenda span {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+}
+
+.color {
+
+    width: 15px;
+
+    height: 15px;
+
+    border: 1px solid #999;
+
+    border-radius: 3px;
+
+    display: inline-block;
+
+}
+
+.rojo {
+
+    background: #f50808;
+
+}
+
+.rojo-suave {
+
+    background: #f87171;
+
+}
+
+.verde-claro {
+
+    background: #a7f3a0;
+
+}
+
+.azul {
+
+    background: #81d4fa;
+
+}
+
+.morado {
+
+    background: #7c3aed;
+
+}
+
+.comedor {
+
+    background: #9333ea;
+
+    border-color: #6b21a8;
+
+}
+
+.icono-campo-leyenda {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 22px;
+
+    height: 22px;
+
+    font-size: 18px;
+
+    line-height: 1;
+
+}
+
+/* Flechas de ingreso/salida de buses */
+
+.flecha {
+
+    font-weight: bold;
+
+    font-size: 18px;
+
+    line-height: 1;
+
+}
+
+.flecha-verde {
+
+    color: #16a34a;
+
+}
+
+.flecha-roja {
+
+    color: #dc2626;
+
+}
+
+/* Óvalo de paraderos */
+
+.ovalo-paradero {
+
+    width: 18px;
+
+    height: 10px;
+
+    background: #2563eb;
+
+    border: 1px solid #1e3a8a;
+
+    border-radius: 50%;
+
+    display: inline-block;
+
+}
+
+/* Muestra de la franja de orillado */
+
+.franja-leyenda {
+
+    width: 15px;
+
+    height: 15px;
+
+    background: #ffffff;
+
+    border: 3px solid #f50808;
+
+    border-radius: 2px;
+
+    display: inline-block;
+
+}
+
+/* =====================================================
+
+   MAPA SVG GRANDE
+
+\===================================================== */
+
+#mapaContainer {
+
+    width: 100%;
+
+    min-height: 720px;
+
+    padding: 5px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    overflow: auto;
+
+    background: #fafafa;
+
+}
+
+#mapaContainer svg {
+
+    width: 100%;
+
+    max-width: 1700px;
+
+    height: auto;
+
+    min-height: 680px;
+
+    display: block;
+
+}
+
+/* =====================================================
+
+   CUARTELES
+
+\===================================================== */
+
+.cuartel-svg {
+
+    cursor: pointer;
+
+    transition: filter 0.15s;
+
+}
+
+.cuartel-svg:hover {
+
+    filter: brightness(0.94);
+
+}
+
+/* =====================================================
+
+   INFORMACIÓN DEL CUARTEL
+
+\===================================================== */
+
+.informacion-cuartel {
+
+    pointer-events: none;
+
+    user-select: none;
+
+}
+
+.informacion-cuartel text {
+
+    paint-order: stroke;
+
+    stroke-width: 0.6px;
+
+    stroke-linejoin: round;
+
+}
+
+/* =====================================================
+
+   FRANJA DE ORILLADO
+
+\===================================================== */
+
+.franja-orillado {
+
+    pointer-events: none;
+
+    user-select: none;
+
+}
+
+/* =====================================================
+
+   MITADES DE RIEGO (C23)
+
+\===================================================== */
+
+.mitades-riego {
+
+    pointer-events: none;
+
+    user-select: none;
+
+}
+
+/* =====================================================
+
+   CALLOUT (cuadrito de info para cuarteles pequeños)
+
+   Usa la misma clase .informacion-cuartel definida arriba
+
+\===================================================== */
+
+/* =====================================================
+
+   TRABAJADORES
+
+\===================================================== */
+
+.icono-trabajadores {
+
+    pointer-events: none;
+
+}
+
+/* =====================================================
+
+   ESTADO CAMPO
+
+\===================================================== */
+
+.estado-campo {
+
+    min-width: 220px;
+
+    padding: 8px 10px;
+
+    border-radius: 6px;
+
+    background: #f7f7f7;
+
+    font-size: 13px;
+
+}
+
+.campo-no-disponible {
+
+    color: #b91c1c;
+
+    font-weight: bold;
+
+}
+
+.campo-disponible {
+
+    color: #15803d;
+
+    font-weight: bold;
+
+}
+
+/* =====================================================
+
+   RESPONSIVE
+
+\===================================================== */
+
+@media (max-width: 1000px) {
+
+    .encabezado {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+
+    }
+
+    .cabecera-mapa {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+
+    }
+
+    .formulario-grid {
+
+        align-items: stretch;
+
+    }
+
+    .campo-form {
+
+        flex: 1 1 180px;
+
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .menu {
+
+        overflow-x: auto;
+
+        justify-content: flex-start;
+
+    }
+
+    .menu-btn {
+
+        white-space: nowrap;
+
+    }
+
+    #mapaContainer {
+
+        min-height: 450px;
+
+    }
+
+    #mapaContainer svg {
+
+        min-height: 430px;
+
+    }
+
+}
+
+/* Mejor lectura de observaciones en cuarteles pequeños */
+.informacion-cuartel rect {
+    filter: drop-shadow(0 0.25px 0.25px rgba(0,0,0,.25));
+}
+.informacion-cuartel text {
+    paint-order: stroke;
+    stroke: rgba(255,255,255,.9);
+    stroke-width: .25px;
+    stroke-linejoin: round;
+}
+#mapaContainer svg {
+    height: auto;
+    max-width: 100%;
+}

@@ -1,0 +1,19 @@
+SISTEMA DE CONTROL - FUNDO PAPAYO
+
+Archivos:
+- index.html: sistema con el mapa SVG incorporado.
+- app.js: registro de aplicaciones, riegos y labores; configuración de cuarteles por equipo/turno.
+- styles.css: estilos.
+- mapaPapayo.svg: mapa original separado como respaldo.
+
+Cambios:
+1. Se usa el mapa Papayo y la distribución de equipos/turnos proporcionada.
+2. Los cuarteles pequeños muestran un cuadro lateral de observaciones con los datos de aplicación y/o riego.
+3. Cuando coinciden aplicación y riego, se conserva la información de ambos y el color se determina por la mayor cantidad de horas de restricción.
+   Ejemplo: aplicación sin restricción + riego con reingreso 24 h = cuartel rojo.
+4. El riego sin tiempo de reingreso no borra ni reemplaza la aplicación; ambos datos se muestran.
+
+IMPORTANTE: se detectó una diferencia entre la tabla y el SVG:
+- La tabla asigna el equipo F/turno 5 al cuartel 106, pero el SVG no contiene un elemento con id="106".
+- El SVG sí contiene id="116", pero ese cuartel no aparece en la tabla proporcionada.
+Por ello, C106 aparece en los selectores, pero no podrá pintarse hasta corregir el ID del mapa; C116 no se configura hasta confirmar su equipo/turno.

@@ -23,7 +23,6 @@ body {
 }
 
 /* =====================================================
-
    ENCABEZADO
 
 \===================================================== */
@@ -258,7 +257,7 @@ body {
 
     padding: 0 17px;
 
-    background: #c98500;
+    background: #002cc9;
 
     color: white;
 
@@ -270,7 +269,7 @@ body {
 
 .btn-registrar:hover {
 
-    background: #a86e00;
+    background: #002cc9;
 
 }
 

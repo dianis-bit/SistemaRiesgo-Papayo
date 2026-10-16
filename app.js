@@ -529,19 +529,21 @@ function rectDentroDeCuartel(numero, rect) {
 }
 
 // Puntaje de un rectángulo: 0 = no tapa ningún cuartel ajeno ni otra info
-function puntuarRect(rect, permitidos) {
 
+function puntuarRect(rect, permitidos) {
     if (limitesMapa) {
-        if (rect.x < limitesMapa.minX || rect.y < limitesMapa.minY ||
+        if (
+            rect.x < limitesMapa.minX ||
+            rect.y < limitesMapa.minY ||
             rect.x + rect.width > limitesMapa.maxX ||
-            rect.y + rect.height > limitesMapa.maxY) {
+            rect.y + rect.height > limitesMapa.maxY
+        ) {
             return Infinity;
         }
     }
 
     const nx = Math.max(3, Math.ceil(rect.width / 2.5));
     const ny = Math.max(3, Math.ceil(rect.height / 2.5));
-
     let malos = 0;
 
     for (let i = 0; i < nx; i++) {
@@ -549,25 +551,48 @@ function puntuarRect(rect, permitidos) {
             const x = rect.x + (i + 0.5) * rect.width / nx;
             const y = rect.y + (j + 0.5) * rect.height / ny;
             const id = cuartelEnPunto(x, y);
-            if (id && permitidos.indexOf(id) === -1) malos++;
+
+            if (id && !permitidos.includes(id)) {
+                malos++;
+            }
         }
     }
 
-    const area = rect.width * rect.height;
+    const area = Math.max(rect.width * rect.height, 1);
+    const margen = 1.2;
 
-    // Tapar texto, íconos u otras cajas ya colocadas es lo peor
+    const protegido = {
+        x: rect.x - margen,
+        y: rect.y - margen,
+        width: rect.width + margen * 2,
+        height: rect.height + margen * 2
+    };
+
     let ocupado = 0;
-    zonasOcupadas.forEach(z => { ocupado += areaSolape(rect, z); });
-    const penalOcupado = ocupado > 0 ? 30 + (ocupado / area) * 300 : 0;
 
-    // Tapar el número de un cuartel también se evita
-    let etiquetas = 0;
-    Object.keys(etiquetasCuarteles).forEach(id => {
-        etiquetas += areaSolape(rect, etiquetasCuarteles[id]);
+    zonasOcupadas.forEach(z => {
+        ocupado += areaSolape(protegido, z);
     });
-    const penalEtiquetas = etiquetas > 0 ? 8 + (etiquetas / area) * 150 : 0;
 
-    return (malos / (nx * ny)) * 100 + penalOcupado + penalEtiquetas;
+    const penalOcupado = ocupado > 0
+        ? 10000 + (ocupado / area) * 10000
+        : 0;
+
+    let etiquetas = 0;
+
+    Object.values(etiquetasCuarteles).forEach(etiqueta => {
+        etiquetas += areaSolape(protegido, etiqueta);
+    });
+
+    const penalEtiquetas = etiquetas > 0
+        ? 3000 + (etiquetas / area) * 3000
+        : 0;
+
+    return (
+        (malos / (nx * ny)) * 100 +
+        penalOcupado +
+        penalEtiquetas
+    );
 }
 
 

@@ -101,8 +101,20 @@ const cuarteles = {
     113: { equipo: "G", turno: "2", subturno: "2" },
     114: { equipo: "G", turno: "3", subturno: "3" },
     115: { equipo: "G", turno: "3", subturno: "3" },
-    116: { equipo: "G", turno: "3", subturno: "3" },
     117: { equipo: "G", turno: "3", subturno: "3" }
+};
+
+
+/* =========================================================
+   CUARTELES CON MÁS DE UN SEGMENTO EN EL MAPA
+
+   Clave = número del cuartel, valor = ids de los segmentos
+   extra (path) que también le pertenecen. Se pintan igual que
+   el cuartel y cuentan como parte de él.
+========================================================= */
+
+const SEGMENTOS_EXTRA = {
+    "60": ["path65"]
 };
 
 
@@ -153,6 +165,7 @@ let anchoMapaSVG = 0;
 let altoMapaSVG = 0;
 
 let bboxCuarteles = {};        // caja de cada cuartel
+let piezasCuarteles = [];      // todos los segmentos: { cuartel, elId, bbox }
 let etiquetasCuarteles = {};   // caja del número de cada cuartel
 let limitesMapa = null;        // límites donde se puede dibujar
 let zonasOcupadas = [];        // textos, cuadros e íconos ya colocados
@@ -372,6 +385,7 @@ function inicializarMapa() {
 function prepararCuartelesSVG() {
 
     bboxCuarteles = {};
+    piezasCuarteles = [];
     let capa = null;
 
     Object.keys(cuarteles).forEach(numero => {
@@ -391,10 +405,40 @@ function prepararCuartelesSVG() {
 
         try {
             bboxCuarteles[numero] = elemento.getBBox();
+            piezasCuarteles.push({ cuartel: numero, elId: numero, bbox: bboxCuarteles[numero] });
             if (!capa) capa = elemento.parentNode;
         } catch (error) {
             console.error(`No se pudo calcular la caja de C${numero}`, error);
         }
+
+    });
+
+    // Segmentos extra (cuarteles de más de una pieza)
+    Object.keys(SEGMENTOS_EXTRA).forEach(numero => {
+
+        if (!cuarteles[numero]) return;
+
+        SEGMENTOS_EXTRA[numero].forEach(idExtra => {
+
+            const extra = document.getElementById(idExtra);
+
+            if (!extra) {
+                console.warn(`No se encontró el segmento ${idExtra} de C${numero}`);
+                return;
+            }
+
+            extra.classList.add("cuartel-svg");
+            extra.addEventListener("click", function () {
+                seleccionarCuartel(numero);
+            });
+
+            try {
+                piezasCuarteles.push({ cuartel: numero, elId: idExtra, bbox: extra.getBBox() });
+            } catch (error) {
+                console.error(`No se pudo calcular la caja de ${idExtra}`, error);
+            }
+
+        });
 
     });
 
@@ -406,25 +450,48 @@ function prepararCuartelesSVG() {
     refrescarTodo();
 }
 
-// Límites del dibujo en las coordenadas de la capa del mapa
+// Límites del dibujo en las coordenadas de la capa del mapa.
+// Se usa solo la transformación propia de la capa (no getCTM, que
+// incluye la escala de pantalla y daba límites incorrectos).
 function calcularLimites(svgEl, capa) {
 
     limitesMapa = null;
 
     try {
         const vb = svgEl.viewBox.baseVal;
-        const inversa = capa.getCTM().inverse();
-        const p1 = new DOMPoint(vb.x, vb.y).matrixTransform(inversa);
-        const p2 = new DOMPoint(vb.x + vb.width, vb.y + vb.height).matrixTransform(inversa);
+
+        let a = 1, d = 1, e = 0, f = 0;
+
+        const consolidada = capa.transform.baseVal.consolidate();
+        if (consolidada) {
+            a = consolidada.matrix.a || 1;
+            d = consolidada.matrix.d || 1;
+            e = consolidada.matrix.e;
+            f = consolidada.matrix.f;
+        }
+
+        const x1 = (vb.x - e) / a;
+        const x2 = (vb.x + vb.width - e) / a;
+        const y1 = (vb.y - f) / d;
+        const y2 = (vb.y + vb.height - f) / d;
 
         limitesMapa = {
-            minX: Math.min(p1.x, p2.x) + 0.5,
-            minY: Math.min(p1.y, p2.y) + 0.5,
-            maxX: Math.max(p1.x, p2.x) - 0.5,
-            maxY: Math.max(p1.y, p2.y) - 0.5
+            minX: Math.min(x1, x2) + 0.5,
+            minY: Math.min(y1, y2) + 0.5,
+            maxX: Math.max(x1, x2) - 0.5,
+            maxY: Math.max(y1, y2) - 0.5
         };
-    } catch (e) {
+    } catch (err) {
         limitesMapa = null;
+    }
+
+    // Respaldo: el área de los cuarteles con un margen
+    if (!limitesMapa || !isFinite(limitesMapa.minX) || !isFinite(limitesMapa.maxX)) {
+        const todas = unirCajas(Object.keys(bboxCuarteles).map(id => bboxCuarteles[id]));
+        limitesMapa = {
+            minX: todas.x - 25, minY: todas.y - 25,
+            maxX: todas.x + todas.width + 25, maxY: todas.y + todas.height + 25
+        };
     }
 }
 
@@ -500,17 +567,35 @@ function puntoEnCuartel(id, x, y) {
     return !!b && x >= b.x && x <= b.x + b.width && y >= b.y && y <= b.y + b.height;
 }
 
+function puntoEnPieza(pieza, x, y) {
+
+    const el = document.getElementById(pieza.elId);
+
+    if (el && typeof el.isPointInFill === "function") {
+        try {
+            return el.isPointInFill(new DOMPoint(x, y));
+        } catch (e) { /* se usa la caja */ }
+    }
+
+    const b = pieza.bbox;
+    return x >= b.x && x <= b.x + b.width && y >= b.y && y <= b.y + b.height;
+}
+
 function cuartelEnPunto(x, y) {
 
-    const ids = Object.keys(bboxCuarteles);
-
-    for (let i = 0; i < ids.length; i++) {
-        const b = bboxCuarteles[ids[i]];
+    for (let i = 0; i < piezasCuarteles.length; i++) {
+        const pz = piezasCuarteles[i];
+        const b = pz.bbox;
         if (x < b.x || x > b.x + b.width || y < b.y || y > b.y + b.height) continue;
-        if (puntoEnCuartel(ids[i], x, y)) return ids[i];
+        if (puntoEnPieza(pz, x, y)) return pz.cuartel;
     }
 
     return null;
+}
+
+// Cajas de todos los segmentos de un cuartel
+function cajasDe(id) {
+    return piezasCuarteles.filter(pz => pz.cuartel === String(id)).map(pz => pz.bbox);
 }
 
 function rectDentroDeCuartel(numero, rect) {
@@ -529,21 +614,19 @@ function rectDentroDeCuartel(numero, rect) {
 }
 
 // Puntaje de un rectángulo: 0 = no tapa ningún cuartel ajeno ni otra info
-
 function puntuarRect(rect, permitidos) {
+
     if (limitesMapa) {
-        if (
-            rect.x < limitesMapa.minX ||
-            rect.y < limitesMapa.minY ||
+        if (rect.x < limitesMapa.minX || rect.y < limitesMapa.minY ||
             rect.x + rect.width > limitesMapa.maxX ||
-            rect.y + rect.height > limitesMapa.maxY
-        ) {
-            return Infinity;
+            rect.y + rect.height > limitesMapa.maxY) {
+            return 100000;
         }
     }
 
     const nx = Math.max(3, Math.ceil(rect.width / 2.5));
     const ny = Math.max(3, Math.ceil(rect.height / 2.5));
+
     let malos = 0;
 
     for (let i = 0; i < nx; i++) {
@@ -551,48 +634,25 @@ function puntuarRect(rect, permitidos) {
             const x = rect.x + (i + 0.5) * rect.width / nx;
             const y = rect.y + (j + 0.5) * rect.height / ny;
             const id = cuartelEnPunto(x, y);
-
-            if (id && !permitidos.includes(id)) {
-                malos++;
-            }
+            if (id && permitidos.indexOf(id) === -1) malos++;
         }
     }
 
-    const area = Math.max(rect.width * rect.height, 1);
-    const margen = 1.2;
+    const area = rect.width * rect.height;
 
-    const protegido = {
-        x: rect.x - margen,
-        y: rect.y - margen,
-        width: rect.width + margen * 2,
-        height: rect.height + margen * 2
-    };
-
+    // Tapar texto, íconos u otras cajas ya colocadas es lo peor
     let ocupado = 0;
+    zonasOcupadas.forEach(z => { ocupado += areaSolape(rect, z); });
+    const penalOcupado = ocupado > 0 ? 30 + (ocupado / area) * 300 : 0;
 
-    zonasOcupadas.forEach(z => {
-        ocupado += areaSolape(protegido, z);
-    });
-
-    const penalOcupado = ocupado > 0
-        ? 10000 + (ocupado / area) * 10000
-        : 0;
-
+    // Tapar el número de un cuartel también se evita
     let etiquetas = 0;
-
-    Object.values(etiquetasCuarteles).forEach(etiqueta => {
-        etiquetas += areaSolape(protegido, etiqueta);
+    Object.keys(etiquetasCuarteles).forEach(id => {
+        etiquetas += areaSolape(rect, etiquetasCuarteles[id]);
     });
+    const penalEtiquetas = etiquetas > 0 ? 8 + (etiquetas / area) * 150 : 0;
 
-    const penalEtiquetas = etiquetas > 0
-        ? 3000 + (etiquetas / area) * 3000
-        : 0;
-
-    return (
-        (malos / (nx * ny)) * 100 +
-        penalOcupado +
-        penalEtiquetas
-    );
+    return (malos / (nx * ny)) * 100 + penalOcupado + penalEtiquetas;
 }
 
 
@@ -722,7 +782,14 @@ function actualizarMapa() {
         const elemento = document.getElementById(numero);
         if (!elemento) return;
 
-        elemento.style.fill = obtenerEstadoCuartel(numero).color;
+        const color = obtenerEstadoCuartel(numero).color;
+
+        elemento.style.fill = color;
+
+        (SEGMENTOS_EXTRA[numero] || []).forEach(idExtra => {
+            const extra = document.getElementById(idExtra);
+            if (extra) extra.style.fill = color;
+        });
 
     });
 }
@@ -734,34 +801,35 @@ function actualizarMapa() {
 
 function colocarFranjaOrillado(numero) {
 
-    const elemento = document.getElementById(numero);
-    if (!elemento) return;
-
-    const padre = elemento.parentNode;
-    if (!padre) return;
-
     const aplicacion = aplicaciones[numero];
     if (!aplicacion || aplicacion.tipo !== "orillado") return;
 
-    const caja = bboxCuarteles[numero] || elemento.getBBox();
+    const piezas = piezasCuarteles.filter(pz => pz.cuartel === String(numero));
 
-    const franja = elemento.cloneNode(false);
+    piezas.forEach(pz => {
 
-    franja.setAttribute("id", `orillado-${numero}`);
-    franja.setAttribute("class", "franja-orillado");
-    franja.removeAttribute("inkscape:label");
-    franja.removeAttribute("sodipodi:nodetypes");
-    franja.removeAttribute("onload");
+        const elemento = document.getElementById(pz.elId);
+        if (!elemento || !elemento.parentNode) return;
 
-    const grosor = Math.min(caja.width, caja.height) * 0.10;
+        const franja = elemento.cloneNode(false);
 
-    franja.style.fill = "none";
-    franja.style.stroke = COLORES.restriccionAlta;
-    franja.style.strokeWidth = grosor;
-    franja.style.strokeOpacity = "1";
-    franja.style.pointerEvents = "none";
+        franja.setAttribute("id", `orillado-${pz.elId}`);
+        franja.setAttribute("class", "franja-orillado");
+        franja.removeAttribute("inkscape:label");
+        franja.removeAttribute("sodipodi:nodetypes");
+        franja.removeAttribute("onload");
 
-    padre.appendChild(franja);
+        const grosor = Math.min(pz.bbox.width, pz.bbox.height) * 0.10;
+
+        franja.style.fill = "none";
+        franja.style.stroke = COLORES.restriccionAlta;
+        franja.style.strokeWidth = grosor;
+        franja.style.strokeOpacity = "1";
+        franja.style.pointerEvents = "none";
+
+        elemento.parentNode.appendChild(franja);
+
+    });
 }
 
 
@@ -1504,7 +1572,7 @@ function colocarInfoRiegoGrupo(g) {
     const w = anchoMaximo(textos.map(t => ({ texto: t }))) * fs + padX * 2;
     const h = textos.length * lh + padY * 2 - (lh - fs) * 0.5;
 
-    const cajas = ids.map(id => bboxCuarteles[id]);
+    const cajas = ids.reduce((acc, id) => acc.concat(cajasDe(id)), []);
     const union = unirCajas(cajas);
 
     const porArea = ids.slice().sort((a, b) =>
@@ -1766,7 +1834,7 @@ function crearBotonNuevoDia() {
     const boton = document.createElement("button");
     boton.id = "btnNuevoDia";
     boton.className = "btn-descargar";
-    boton.textContent = "🔄 Actualizar mapa ";
+    boton.textContent = "🔄 Actualizar mapa";
     boton.style.background = "#c98500";
     boton.addEventListener("click", reiniciarMapa);
 
@@ -1787,7 +1855,7 @@ function reiniciarMapa() {
     });
 
     const confirmar = confirm(
-        `¿Actualizar el mapa?\n\nSe borrarán todas las aplicaciones, riegos y labores.`
+        `¿Actualizar el mapa?\n\nSe borrarán todas las aplicaciones, riegos y labores, y la fecha pasará a ${hoy}.`
     );
 
     if (!confirmar) return;

@@ -1,327 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Control de Aplicaciones, Riegos y Campo — Fundo Papayo
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="styles.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Aplicaciones, Riegos y Campo — Fundo Papayo</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
-
 <body>
 
-
-<!-- =====================================================
-     ENCABEZADO
-===================================================== -->
-
+<!-- ENCABEZADO -->
 <header class="encabezado">
-
     <div class="titulo-principal">
-
-        <h1>
-            Mapa de Control de Labores — Fundo Papayo
-        </h1>
-
-        <p>
-            Registro de aplicaciones, riegos y labores de campo
-        </p>
-
+        <h1>Mapa de Control de Labores — Fundo Papayo</h1>
+        <p>Registro de aplicaciones, riegos y labores de campo</p>
     </div>
-
-
-    <div class="fecha-header">
-
-        📅
-        <span id="fechaActual"></span>
-
-    </div>
-
+    <div class="fecha-header">📅 <span id="fechaActual"></span></div>
 </header>
 
-
-
-<!-- =====================================================
-     MENÚ
-===================================================== -->
-
+<!-- MENÚ -->
 <nav class="menu">
-
-    <button
-        class="menu-btn activo"
-        onclick="mostrarSeccion('aplicaciones', this)">
-
-        🚜 Aplicaciones
-
-    </button>
-
-
-    <button
-        class="menu-btn"
-        onclick="mostrarSeccion('riegos', this)">
-
-        💧 Riegos
-
-    </button>
-
-
-    <button
-        class="menu-btn"
-        onclick="mostrarSeccion('campo', this)">
-
-        👨‍🌾 Campo
-
-    </button>
-
+    <button class="menu-btn activo" onclick="mostrarSeccion('aplicaciones', this)">🚜 Aplicaciones</button>
+    <button class="menu-btn" onclick="mostrarSeccion('riegos', this)">💧 Riegos</button>
+    <button class="menu-btn" onclick="mostrarSeccion('campo', this)">👨‍🌾 Campo</button>
 </nav>
 
-
-
-<!-- =====================================================
-     FORMULARIO HORIZONTAL
-===================================================== -->
-
+<!-- FORMULARIOS -->
 <section class="formulario-horizontal">
 
-
-    <!-- =================================================
-         APLICACIONES
-    ================================================== -->
-
-    <div
-        id="seccionAplicaciones"
-        class="seccion activa">
-        <div class="formulario-titulo">
-             Registrar aplicación
-        </div>
+    <!-- APLICACIONES -->
+    <div id="seccionAplicaciones" class="seccion activa">
+        <div class="formulario-titulo">Registrar aplicación</div>
         <div class="formulario-grid">
             <div class="campo-form">
-                <label>
-                    Cuartel
-                </label>
-                <select
-                    id="aplicacionCuartel">
-
-                    <option value="">
-                        Seleccione cuartel
-                    </option>
-
-                </select>
-
+                <label>Cuartel</label>
+                <select id="aplicacionCuartel"><option value="">Seleccione cuartel</option></select>
             </div>
             <div class="campo-form">
-
-                <label>
-                    Tipo de aplicación
-                </label>
-
-                <select
-                    id="aplicacionTipo">
-
-                    <option value="">
-                        Seleccione tipo
-                    </option>
-
-                    <option value="normal">
-                        Normal
-                    </option>
-
-                    <option value="dron">
-                        Con dron
-                    </option> 
-
-                    <option value="orillado">
-                        Orillado
-                    </option>
-
+                <label>Tipo de aplicación</label>
+                <select id="aplicacionTipo">
+                    <option value="">Seleccione tipo</option>
+                    <option value="normal">Normal</option>
+                    <option value="dron">Con dron</option>
+                    <option value="orillado">Orillado</option>
                 </select>
-
             </div>
-
-
-
             <div class="campo-form">
-
-                <label>
-                    Horas de restricción
-                </label>
-
-                <select
-                    id="aplicacionCondicion">
-
-                    <option value="">
-                        Seleccione restricción
-                    </option>
-
-                    <option value="48">
-                        48 horas
-                    </option>
-
-                    <option value="24">
-                        24 horas
-                    </option>
-
-                    <option value="12">
-                        12 horas
-                    </option>
-
-                    <option value="8">
-                        8 horas
-                    </option>
-
-                    <option value="6">
-                        6 horas
-                    </option>
-
-                    <option value="4">
-                        4 horas
-                    </option>
-
-                    <option value="2">
-                        2 horas
-                    </option>
-
-                    <option value="0">
-                        0 horas - Sin restricción
-                    </option>
-
+                <label>Horas de restricción</label>
+                <select id="aplicacionCondicion">
+                    <option value="">Seleccione restricción</option>
+                    <option value="48">48 horas</option>
+                    <option value="24">24 horas</option>
+                    <option value="12">12 horas</option>
+                    <option value="8">8 horas</option>
+                    <option value="6">6 horas</option>
+                    <option value="4">4 horas</option>
+                    <option value="2">2 horas</option>
+                    <option value="0">0 horas - Sin restricción</option>
                 </select>
-
             </div>
-
-
-
             <div class="campo-form">
-
-                <label>
-                    Horario
-                </label>
-
-                <select
-                    id="aplicacionMomento">
-
-                    <option value="">
-                        Seleccione
-                    </option>
-
-                    <option value="dia">
-                        ☀️ Día
-                    </option>
-
-                    <option value="noche">
-                        🌕 Noche
-                    </option>
-
+                <label>Horario</label>
+                <select id="aplicacionMomento">
+                    <option value="">Seleccione</option>
+                    <option value="dia">☀️ Día</option>
+                    <option value="noche">🌕 Noche</option>
                 </select>
-
             </div>
-
-
-
             <div class="campo-form">
-
-                <label>
-                    Fecha
-                </label>
-
-                <input
-                    type="date"
-                    id="fechaAplicacion">
-
+                <label>Fecha</label>
+                <input type="date" id="fechaAplicacion">
             </div>
-
-
-
             <div class="campo-form boton-form">
-
-                <label>
-                    &nbsp;
-                </label>
-
-                <button
-                    class="btn-registrar"
-                    onclick="registrarAplicacion()">
-
-                    Registrar aplicación
-
-                </button>
-
+                <label>&nbsp;</label>
+                <button class="btn-registrar" onclick="registrarAplicacion()">Registrar aplicación</button>
             </div>
-
-
             <div class="campo-form boton-form">
-
-                <label>
-                    &nbsp;
-                </label>
-
-                <button
-                    class="btn-eliminar"
-                    onclick="eliminarAplicacion()">
-
-                    🗑️ Eliminar registro
-
-                </button>
-
+                <label>&nbsp;</label>
+                <button class="btn-eliminar" onclick="eliminarAplicacion()">🗑️ Eliminar registro</button>
             </div>
-
         </div>
-
-
-        <div
-            id="mensajeAplicacion"
-            class="mensaje">
-        </div>
-
+        <div id="mensajeAplicacion" class="mensaje"></div>
     </div>
 
-
-
-    <!-- =================================================
-         RIEGOS
-    ================================================== -->
-
-    <div
-        id="seccionRiegos"
-        class="seccion">
-
-
-        <div class="formulario-titulo">
-
-            💧 Registrar riego
-
-        </div>
-
-
+    <!-- RIEGOS -->
+    <div id="seccionRiegos" class="seccion">
+        <div class="formulario-titulo">💧 Registrar riego</div>
         <div class="formulario-grid">
-
-
             <div class="campo-form">
-
-                <label>
-                    Equipo
-                </label>
-
-                <select
-                    id="riegoEquipo"
-                    onchange="actualizarTurnos()">
-
-                    <option value="">
-                        Seleccione equipo
-                    </option>
-
+                <label>Equipo</label>
+                <select id="riegoEquipo" onchange="actualizarTurnos()">
+                    <option value="">Seleccione equipo</option>
                     <option value="A">Equipo A</option>
                     <option value="B">Equipo B</option>
                     <option value="C">Equipo C</option>
@@ -329,437 +97,108 @@
                     <option value="E">Equipo E</option>
                     <option value="F">Equipo F</option>
                     <option value="G">Equipo G</option>
-
                 </select>
-
             </div>
-
-
-
             <div class="campo-form">
-
-                <label>
-                    Turno
-                </label>
-
-                <select
-                    id="riegoTurno"
-                    onchange="mostrarCuartelesTurno()">
-
-                    <option value="">
-                        Seleccione turno
-                    </option>
-
+                <label>Turno</label>
+                <select id="riegoTurno" onchange="mostrarCuartelesTurno()">
+                    <option value="">Seleccione turno</option>
                 </select>
-
             </div>
-
-
-
             <div class="campo-form">
-
-                <label>
-                    Fecha
-                </label>
-
-                <input
-                    type="date"
-                    id="fechaRiego">
-
+                <label>Fecha</label>
+                <input type="date" id="fechaRiego">
             </div>
-
-
-
             <div class="campo-form">
-
-                <label>
-                    Hora inicio
-                </label>
-
-                <input
-                    type="time"
-                    id="horaRiego">
-
+                <label>Hora inicio</label>
+                <input type="time" id="horaRiego">
             </div>
-
-
-
             <div class="campo-form">
-
-                <label>
-                    Tipo de riego
-                </label>
-
-
+                <label>Tipo de riego</label>
                 <div class="radio-grupo">
-
                     <label>
-
-                        <input
-                            type="radio"
-                            name="tipoRiego"
-                            value="reingreso"
-                            onchange="actualizarCampoReingreso()">
-
+                        <input type="radio" name="tipoRiego" value="reingreso" onchange="actualizarCampoReingreso()">
                         ⏰ Con tiempo de reingreso
-
                     </label>
-
-
                     <label>
-
-                        <input
-                            type="radio"
-                            name="tipoRiego"
-                            value="normal"
-                            onchange="actualizarCampoReingreso()">
-
+                        <input type="radio" name="tipoRiego" value="normal" onchange="actualizarCampoReingreso()">
                         ✅ Sin tiempo de reingreso
-
                     </label>
-
                 </div>
-
             </div>
-
-
-
-            <div
-                class="campo-form"
-                id="campoHorasReingreso"
-                style="display: none;">
-
-                <label>
-                    Horas de reingreso
-                </label>
-
-                <select
-                    id="riegoHorasReingreso">
-
-                    <option value="">
-                        Seleccione horas
-                    </option>
-
-                    <option value="48">
-                        48 horas
-                    </option>
-
-                    <option value="24">
-                        24 horas
-                    </option>
-
-                    <option value="12">
-                        12 horas
-                    </option>
-
+            <div class="campo-form" id="campoHorasReingreso" style="display: none;">
+                <label>Horas de reingreso</label>
+                <select id="riegoHorasReingreso">
+                    <option value="">Seleccione horas</option>
+                    <option value="48">48 horas</option>
+                    <option value="24">24 horas</option>
+                    <option value="12">12 horas</option>
                 </select>
-
             </div>
-
-
-
             <div class="campo-form">
-
-                <label>
-                    Cuarteles
-                </label>
-
-
-                <div
-                    id="listaCuartelesTurno"
-                    class="lista-cuarteles">
-
-                    Seleccione equipo y turno
-
-                </div>
-
+                <label>Cuarteles</label>
+                <div id="listaCuartelesTurno" class="lista-cuarteles">Seleccione equipo y turno</div>
             </div>
-
-
-
             <div class="campo-form boton-form">
-
-                <label>
-                    &nbsp;
-                </label>
-
-                <button
-                    class="btn-registrar"
-                    onclick="registrarRiego()">
-
-                    Registrar riego
-
-                </button>
-
+                <label>&nbsp;</label>
+                <button class="btn-registrar" onclick="registrarRiego()">Registrar riego</button>
             </div>
-
-
             <div class="campo-form boton-form">
-
-                <label>
-                    &nbsp;
-                </label>
-
-                <button
-                    class="btn-eliminar"
-                    onclick="eliminarRiego()">
-
-                    🗑️ Eliminar registro
-
-                </button>
-
+                <label>&nbsp;</label>
+                <button class="btn-eliminar" onclick="eliminarRiego()">🗑️ Eliminar registro</button>
             </div>
-
         </div>
-
-
-        <div
-            id="mensajeRiego"
-            class="mensaje">
-        </div>
-
+        <div id="mensajeRiego" class="mensaje"></div>
     </div>
 
-
-
-    <!-- =================================================
-         CAMPO
-    ================================================== -->
-
-    <div
-        id="seccionCampo"
-        class="seccion">
-
-
-        <div class="formulario-titulo">
-
-            👨‍🌾 Registrar labor de campo
-
-        </div>
-
-
+    <!-- CAMPO -->
+    <div id="seccionCampo" class="seccion">
+        <div class="formulario-titulo">👨‍🌾 Registrar labor de campo</div>
         <div class="formulario-grid">
-
-
             <div class="campo-form">
-
-                <label>
-                    Cuartel
-                </label>
-
-                <select
-                    id="campoCuartel">
-
-                    <option value="">
-                        Seleccione cuartel
-                    </option>
-
-                </select>
-
+                <label>Cuartel</label>
+                <select id="campoCuartel"><option value="">Seleccione cuartel</option></select>
             </div>
-
-
-
-            <div
-                id="estadoCampo"
-                class="estado-campo">
-
-                Seleccione un cuartel
-
-            </div>
-
-
-
+            <div id="estadoCampo" class="estado-campo">Seleccione un cuartel</div>
             <div class="campo-form boton-form">
-
-                <label>
-                    &nbsp;
-                </label>
-
-                <button
-                    class="btn-registrar"
-                    onclick="registrarLabor()">
-
-                    Registrar labor
-
-                </button>
-
+                <label>&nbsp;</label>
+                <button class="btn-registrar" onclick="registrarLabor()">Registrar labor</button>
             </div>
-
-
             <div class="campo-form boton-form">
-
-                <label>
-                    &nbsp;
-                </label>
-
-                <button
-                    class="btn-eliminar"
-                    onclick="eliminarLabor()">
-
-                    🗑️ Eliminar registro
-
-                </button>
-
+                <label>&nbsp;</label>
+                <button class="btn-eliminar" onclick="eliminarLabor()">🗑️ Eliminar registro</button>
             </div>
-
         </div>
-
-
-        <div
-            id="mensajeCampo"
-            class="mensaje">
-        </div>
-
+        <div id="mensajeCampo" class="mensaje"></div>
     </div>
 
 </section>
 
-
-
-<!-- =====================================================
-     MAPA
-===================================================== -->
-
+<!-- MAPA -->
 <main class="contenedor-mapa">
 
-
     <div class="cabecera-mapa">
-
-
         <div>
-
-            <h2>
-                PROGRAMACIÓN FUNDO PAPAYO
-            </h2>
+            <h2>PROGRAMACIÓN FUNDO PAPAYO</h2>
+        </div>
+        <button id="btnDescargarMapa" class="btn-descargar" onclick="descargarMapaComoImagen()">📥 Descargar mapa</button>
     </div>
 
-
-        <button
-            id="btnDescargarMapa"
-            class="btn-descargar"
-            onclick="descargarMapaComoImagen()">
-
-            📥 Descargar mapa
-
-        </button>
-
-
-        </div>
-
-
-
-        <div class="leyenda">
-
-
-            <span>
-
-                <i class="color rojo"></i>
-
-                Aplicación / dron — 24 h a más
-
-            </span>
-
-
-            <span>
-
-                <i class="color rojo-suave"></i>
-
-                Aplicación / dron — 12 h
-
-            </span>
-
-
-            <span>
-
-                <i class="color verde-claro"></i>
-
-                Aplicación sin restricción 
-
-            </span>
-
-
-            <span>
-
-                <i class="franja-leyenda"></i>
-
-                Aplicación de orillado (franja roja en el perímetro)
-
-            </span>
-
-
-            <span>
-
-                <i class="color azul"></i>
-
-                Riego sin tiempo de reingreso — "R"
-
-            </span>
-
-
-            <span>
-
-                <i class="color rojo"></i>
-
-                Riego con reingreso — "R 24 H"
-
-            </span>
-
-
-            <span>
-
-                👥︎ Cuartel a laborar
-
-            </span>
-
-
-            <span>
-
-                <span class="flecha flecha-verde"></span>
-
-                Ingreso de buses
-
-            </span>
-
-
-            <span>
-
-                <span class="flecha flecha-roja"></span>
-
-                Salida de buses
-
-            </span>
-
-
-            <span>
-
-                <i class="color comedor"></i>
-
-                Comedores
-
-            </span>
-
-
-            <span>
-
-                <i class="ovalo-paradero"></i>
-
-                Paraderos
-
-            </span>
-
-        </div>
-
+    <div class="leyenda">
+        <span><i class="color rojo"></i> Aplicación / dron — 24 h a más</span>
+        <span><i class="color rojo-suave"></i> Aplicación / dron — 12 h</span>
+        <span><i class="color verde-claro"></i> Aplicación sin restricción</span>
+        <span><i class="franja-leyenda"></i> Aplicación de orillado (franja roja en el perímetro)</span>
+        <span><i class="color azul"></i> Riego sin tiempo de reingreso — "R"</span>
+        <span><i class="color rojo"></i> Riego con reingreso — "R.R 24 H"</span>
+        <span>👥︎ Cuartel a laborar</span>
+        <span><span class="flecha flecha-verde"></span> Ingreso de buses</span>
+        <span><span class="flecha flecha-roja"></span> Salida de buses</span>
+        <span><i class="color comedor"></i> Comedores</span>
+        <span><i class="ovalo-paradero"></i> Paraderos</span>
     </div>
-
-
 
     <div id="mapaContainer">
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    width="489.20557mm"
    height="288.52673mm"
@@ -784,9 +223,9 @@
      inkscape:document-units="mm"
      showgrid="true"
      showguides="false"
-     inkscape:zoom="0.33106032"
-     inkscape:cx="699.26833"
-     inkscape:cy="835.19522"
+     inkscape:zoom="1.3242413"
+     inkscape:cx="797.06019"
+     inkscape:cy="223.14665"
      inkscape:window-width="1920"
      inkscape:window-height="1111"
      inkscape:window-x="-9"
@@ -910,11 +349,6 @@
        id="115"
        sodipodi:nodetypes="ccccccccc"
        inkscape:label="115" /><path
-       style="fill:#ffffff;stroke:#111111;stroke-width:0.536641;stroke-dasharray:none;paint-order:stroke fill markers"
-       d="m 162.19611,141.73618 -0.01,14.0675 6.5396,-0.55358 5.81297,-1.36767 5.99464,-1.13973 7.22989,-0.3582 -0.96589,-10.64737 z"
-       id="116"
-       sodipodi:nodetypes="cccccccc"
-       inkscape:label="116" /><path
        style="fill:#ffffff;stroke:#111111;stroke-width:0.506071;stroke-dasharray:none;paint-order:stroke fill markers"
        d="m 118.25985,165.68222 0.006,23.24805 14.56651,-11.96628 3.071,-5.37468 6.70583,-5.89405 z"
        id="117"
@@ -1190,7 +624,8 @@
        style="fill:#ffffff;stroke:#111111;stroke-width:0.616415;paint-order:stroke fill markers"
        d="m 161.03134,246.32005 0.004,13.46513 h 19.61195 z"
        id="path65"
-       sodipodi:nodetypes="cccc" /><path
+       sodipodi:nodetypes="cccc"
+       inkscape:label="60" /><path
        style="fill:#ffffff;stroke:#111111;stroke-width:0.625033;paint-order:stroke fill markers"
        d="m 161.27452,260.3906 -0.0513,21.23235 25.83076,0.009 -0.0109,-16.77995 -4.21525,-3.75594 -1.88846,-0.85236 z"
        id="60"
@@ -1506,16 +941,6 @@
          style="stroke-width:0.095"
          x="139.96341"
          y="145.96535">115</tspan></text><text
-       xml:space="preserve"
-       style="font-size:4.23333px;font-family:Arial;-inkscape-font-specification:Arial;writing-mode:lr-tb;direction:ltr;fill:#3c3c3c;fill-opacity:1;stroke:#111111;stroke-width:0.095;stroke-dasharray:none;paint-order:stroke fill markers"
-       x="163.41588"
-       y="145.96533"
-       id="text102"><tspan
-         sodipodi:role="line"
-         id="tspan102"
-         style="stroke-width:0.095"
-         x="163.41588"
-         y="145.96533">116</tspan></text><text
        xml:space="preserve"
        style="font-size:4.23333px;font-family:Arial;-inkscape-font-specification:Arial;writing-mode:lr-tb;direction:ltr;fill:#3c3c3c;fill-opacity:1;stroke:#111111;stroke-width:0.095;stroke-dasharray:none;paint-order:stroke fill markers"
        x="49.806751"
@@ -1998,14 +1423,25 @@
          y="242.95409">55</tspan></text><text
        xml:space="preserve"
        style="font-size:4.23333px;font-family:Arial;-inkscape-font-specification:Arial;writing-mode:lr-tb;direction:ltr;fill:#3c3c3c;fill-opacity:1;stroke:#111111;stroke-width:0.095;stroke-dasharray:none;paint-order:stroke fill markers"
-       x="163.79185"
-       y="266.53049"
+       x="162.59305"
+       y="265.93109"
        id="text152"><tspan
          sodipodi:role="line"
          id="tspan152"
          style="stroke-width:0.095"
-         x="163.79185"
-         y="266.53049">60</tspan></text><text
+         x="162.59305"
+         y="265.93109">60</tspan></text><text
+       xml:space="preserve"
+       style="font-size:2.60577px;font-family:Arial;-inkscape-font-specification:Arial;writing-mode:lr-tb;direction:ltr;fill:#3c3c3c;fill-opacity:1;stroke:#111111;stroke-width:0.058476;stroke-dasharray:none;paint-order:stroke fill markers"
+       x="199.20462"
+       y="206.22679"
+       id="text152-8"
+       transform="scale(0.81687166,1.2241825)"><tspan
+         sodipodi:role="line"
+         id="tspan152-2"
+         style="stroke-width:0.058476"
+         x="199.20462"
+         y="206.22679">60</tspan></text><text
        xml:space="preserve"
        style="font-size:4.23333px;font-family:Arial;-inkscape-font-specification:Arial;writing-mode:lr-tb;direction:ltr;fill:#3c3c3c;fill-opacity:1;stroke:#111111;stroke-width:0.095;stroke-dasharray:none;paint-order:stroke fill markers"
        x="163.79185"
@@ -2535,20 +1971,11 @@
          style="stroke-width:0.424826;stroke-dasharray:none"
          x="287.60413"
          y="352.59595">EQUIPO E</tspan></text></g></svg>
-
     </div>
-
 
 </main>
 
-
-
 <script src="app.js"></script>
 
-
 </body>
-
 </html>
-
-
-    
